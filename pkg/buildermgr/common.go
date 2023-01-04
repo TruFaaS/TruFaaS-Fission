@@ -19,14 +19,14 @@ package buildermgr
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"strings"
-	"time"
-
 	"github.com/dchest/uniuri"
+	"github.com/fission/fission/trufaas"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"net/http"
+	"strings"
+	"time"
 
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	"github.com/fission/fission/pkg/builder"
@@ -117,7 +117,7 @@ func buildPackage(ctx context.Context, logger *zap.Logger, fissionClient version
 		buildResp.BuildLogs += fmt.Sprintf("%v\n", e)
 		return nil, buildResp.BuildLogs, ferror.MakeError(http.StatusInternalServerError, e)
 	}
-
+	trufaas.SavePackageInfo(storageSvcUrl, uploadResp.ArchiveDownloadUrl, uploadReq.Filename, pkg)
 	return uploadResp, buildResp.BuildLogs, nil
 }
 
