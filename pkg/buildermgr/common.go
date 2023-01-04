@@ -19,6 +19,7 @@ package buildermgr
 import (
 	"context"
 	"fmt"
+	"github.com/fission/fission/truFaas"
 	"net/http"
 	"strings"
 	"time"
@@ -117,6 +118,7 @@ func buildPackage(ctx context.Context, logger *zap.Logger, fissionClient version
 		buildResp.BuildLogs += fmt.Sprintf("%v\n", e)
 		return nil, buildResp.BuildLogs, ferror.MakeError(http.StatusInternalServerError, e)
 	}
+	truFaas.SavePackageInfo(storageSvcUrl, uploadResp.ArchiveDownloadUrl, uploadReq.Filename, pkg)
 
 	return uploadResp, buildResp.BuildLogs, nil
 }
