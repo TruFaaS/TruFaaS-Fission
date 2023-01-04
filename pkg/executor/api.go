@@ -146,13 +146,13 @@ func (executor *Executor) writeResponse(w http.ResponseWriter, serviceName strin
 // To make it optimal, plan is to add an eager cache invalidator function that watches for pod deletion events and
 // invalidates the cache entry if the pod address was cached.
 func (executor *Executor) getServiceForFunction(ctx context.Context, fn *fv1.Function) (string, error) {
-	respChan := make(chan *createFuncServiceResponse)
-	executor.requestChan <- &createFuncServiceRequest{
+	respChan := make(chan *createFuncServiceResponse)  // create a channel to send service response
+	executor.requestChan <- &createFuncServiceRequest{ // writes createFuncServiceRequest to the channel
 		context:  ctx,
 		function: fn,
 		respChan: respChan,
 	}
-	resp := <-respChan
+	resp := <-respChan //reads from  respChan and assigns to resp
 	if resp.err != nil {
 		return "", resp.err
 	}
