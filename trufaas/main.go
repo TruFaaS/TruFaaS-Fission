@@ -12,7 +12,17 @@ import (
 func SavePackageInfo(storageSvcUrl string, archiveDownloadUrl string, filename string, pkg *fv1.Package) {
 
 	data := fmt.Sprintf("Storage Service URL %s \n Archive download URL %s \n File Name %s \n Package Name %s \n ", storageSvcUrl, archiveDownloadUrl, filename, pkg.Name)
+	sendStringTOAPI(data)
 
+}
+
+func SaveInfoFromCLI(dataString string) {
+	data := fmt.Sprintf("Data from CLI %s ", dataString)
+	sendStringTOAPI(data)
+
+}
+
+func sendStringTOAPI(data string) {
 	jsonData := []byte(fmt.Sprintf(`{"content":"%s"}`, data))
 	req, err := http.NewRequest("POST", "https://test-data-api.onrender.com/info", bytes.NewBuffer(jsonData))
 	if err != nil {
