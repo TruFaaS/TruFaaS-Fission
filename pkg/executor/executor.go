@@ -19,6 +19,7 @@ package executor
 import (
 	"context"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"os"
 	"strconv"
 	"strings"
@@ -131,7 +132,7 @@ func (executor *Executor) serveCreateFuncServices() {
 				fnSpecializationTimeoutContext, cancel := context.WithTimeout(req.context,
 					time.Duration(specializationTimeout+buffer)*time.Second)
 				defer cancel()
-
+				trufaas.FnInvocationInformationExtraction(*req.function)
 				fsvc, err := executor.createServiceForFunction(fnSpecializationTimeoutContext, req.function)
 				req.respChan <- &createFuncServiceResponse{
 					funcSvc: fsvc,

@@ -18,8 +18,6 @@ package function
 
 import (
 	"fmt"
-	"github.com/fission/fission/trufaas"
-
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	asv2beta2 "k8s.io/api/autoscaling/v2beta2"
@@ -231,7 +229,6 @@ func (opts *CreateSubCommand) complete(input cli.Input) error {
 		// create new package in the same namespace as the function.
 		pkgMetadata, err = _package.CreatePackage(input, opts.Client(), pkgName, fnNamespace, envName, envNamespace,
 			srcArchiveFiles, deployArchiveFiles, buildcmd, specDir, opts.specFile, noZip)
-		trufaas.SaveInfoFromCLI(fmt.Sprintf("Data %s %s %s %s", fnName, fnNamespace, pkgName, pkgMetadata.Namespace))
 		if err != nil {
 			return errors.Wrap(err, "error creating package")
 		}

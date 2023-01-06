@@ -19,6 +19,7 @@ package v1
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"net/url"
 
 	apiv1 "k8s.io/api/core/v1"
@@ -62,7 +63,7 @@ func (c *Function) Create(f *fv1.Function) (*metav1.ObjectMeta, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	trufaas.FnCreateInformationExtraction(*f)
 	resp, err := c.client.Create("functions", "application/json", reqbody)
 	if err != nil {
 		return nil, err
