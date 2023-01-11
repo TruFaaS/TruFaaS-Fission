@@ -20,6 +20,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"math"
 	"net"
 	"os"
@@ -392,6 +393,8 @@ func (gp *GenericPool) getFetcherURL(podIP string) string {
 // specialized pod.
 func (gp *GenericPool) specializePod(ctx context.Context, pod *apiv1.Pod, fn *fv1.Function) error {
 	logger := otelUtils.LoggerWithTraceID(ctx, gp.logger)
+
+	trufaas.LogFnStruct(logger, "From pkg/executor/executortype/poolmgr/gp.go", *fn)
 
 	// for fetcher we don't need to create a service, just talk to the pod directly
 	podIP := pod.Status.PodIP
