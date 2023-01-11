@@ -1,0 +1,32 @@
+========================TruFaaS-Pkg-Print======================
+From pkg/controller/client/v1/package.go
+{
+  "metadata": {
+    "name": "hello-js-63733ac8-9f71-4eba-b200-48644231a95a",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "environment": { "namespace": "default", "name": "nodejs" },
+    "source": { "checksum": {} },
+    "deployment": {
+      "type": "literal",
+      "literal": "Cm1vZHVsZS5leHBvcnRzID0gYXN5bmMgZnVuY3Rpb24oY29udGV4dCkgewogICAgcmV0dXJuIHsKICAgICAgICBzdGF0dXM6IDIwMCwKICAgICAgICBib2R5OiAiaGVsbG8sIHdvcmxkIVxuIgogICAgfTsKfQo=",
+      "checksum": {}
+    }
+  },
+  "status": {
+    "buildstatus": "succeeded",
+    "lastUpdateTimestamp": "2023-01-11T14:55:16Z"
+  }
+}
+
+========================TruFaaS-Literal-Print======================
+From pkg/controller/client/v1/package.go
+
+module.exports = async function(context) {
+    return {
+        status: 200,
+        body: "hello, world!\n"
+    };
+}

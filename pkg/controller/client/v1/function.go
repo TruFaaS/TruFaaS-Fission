@@ -63,7 +63,7 @@ func (c *Function) Create(f *fv1.Function) (*metav1.ObjectMeta, error) {
 	if err != nil {
 		return nil, err
 	}
-	trufaas.FnCreateInformationExtraction(*f)
+	trufaas.PrintFunctionStruct("From pkg/controller/client/v1/function.go", *f)
 	resp, err := c.client.Create("functions", "application/json", reqbody)
 	if err != nil {
 		return nil, err
