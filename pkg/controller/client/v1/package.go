@@ -61,7 +61,13 @@ func (c *Package) Create(f *fv1.Package) (*metav1.ObjectMeta, error) {
 		return nil, err
 	}
 	trufaas.PrintPkgStruct("From pkg/controller/client/v1/package.go", *f)
-	trufaas.PrintLiteral("From pkg/controller/client/v1/package.go", f.Spec.Deployment.Literal)
+	if f.Spec.Deployment.Literal != nil {
+
+		trufaas.PrintLiteral("From pkg/controller/client/v1/package.go with flag --code", f.Spec.Deployment.Literal)
+	}
+	if f.Spec.Source.Literal != nil {
+		trufaas.PrintLiteral("From pkg/controller/client/v1/package.go with flag --src", f.Spec.Source.Literal)
+	}
 	resp, err := c.client.Create("packages", "application/json", reqbody)
 	if err != nil {
 		return nil, err
