@@ -15,7 +15,7 @@ From pkg/controller/client/v1/function.go
         "name": "hellopy-0a54c15f-b986-40f9-a85b-846ebec0742a",
         "resourceversion": "141752"
       },
-      "functionName": "user.main"
+      "functionName": "user.main"  // this is only in --src
     },
     "resources": {},
     "InvokeStrategy": {

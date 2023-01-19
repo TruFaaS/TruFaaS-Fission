@@ -1,0 +1,21 @@
+function creation
+
+Function obj
+
+--code -- src flags with n without url
+the only difference is in the package obj there's a functionName key
+
+package obj
+
+--code with n without url
+Difference : inside spec-> deployment
+            with url : url key (the url of the code)
+            without url: literal (encoded code)
+
+--src with n without url
+haven't tested
+
+--src --code without url
+    --code spec-> deployment has literal, type | source doesnt
+    -- src spec -> source has literal, type | deployment  doesn't
+    in --src there's an additional buildCmd
