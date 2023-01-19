@@ -17,5 +17,5 @@ haven't tested
 
 --src --code without url
     --code spec-> deployment has literal, type | source doesnt
-    -- src spec -> source has literal, type | deployment  doesnt
+    -- src spec -> source has literal, type | deployment  doesn't
     in --src there's an additional buildCmd
