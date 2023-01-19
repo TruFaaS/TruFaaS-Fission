@@ -1,0 +1,36 @@
+========================TruFaaS-Pkg-Print======================
+From pkg/controller/client/v1/package.go
+
+{
+  "metadata": {
+    "name": "trufaasdep-dbacca74-13b4-4a3d-9cec-d3cb6530afd7",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "environment": {
+      "namespace": "default",
+      "name": "python"
+    },
+    "source": {
+      "checksum": {}
+    },
+    "deployment": {
+      "type": "literal",
+      "literal": "UEsDBBQAAAAAAIBSM1YAAAAAAAAAAAAAAAAPAAAAVHJ1RmFhUy1EZXBQa2cvUEsDBBQAAAAIAJFSM1bka768awAAAH0AAAAWAAAAVHJ1RmFhUy1EZXBQa2cvbWFpbi5weSWLMQ7CQAwE+0j5w3I00PAAOhrEN05nH7F0Z0eOA8rvScRWOxrNGQ8ixMSo1pp9Rd8oRowwpJ5Fb/OWxoG44qDL9T4O2OccqyvSi/cK1a3jKcsipqirljhOcc7B9LfEc7Otswayl0k+fEo/UEsBAj8AFAAAAAAAgFIzVgAAAAAAAAAAAAAAAA8AJAAAAAAAAAAQAAAAAAAAAFRydUZhYVMtRGVwUGtnLwoAIAAAAAAAAQAYAMTcxHvBK9kBxNzEe8Er2QHrIw00wSvZAVBLAQI/ABQAAAAIAJFSM1bka768awAAAH0AAAAWACQAAAAAAAAAIAAAAC0AAABUcnVGYWFTLURlcFBrZy9tYWluLnB5CgAgAAAAAAABABgA3BadkMEr2QGKV6KQwSvZAcTcxHvBK9kBUEsFBgAAAAACAAIAyQAAAMwAAAAAAA==",
+      "checksum": {}
+    }
+  },
+  "status": {
+    "buildstatus": "succeeded",
+    "lastUpdateTimestamp": "2023-01-19T05:05:04Z"
+  }
+}
+
+========================TruFaaS-Literal-Print======================
+From pkg/controller/client/v1/package.go with flag --code
+PK♥♦¶�R3VTruFaaS-DepPkg/PK♥♦�R3V�k��k}▬TruFaaS-DepPkg/main.py%�1�@
+♦�H��r4��:→�7Ng▼�tgG�♥��I�V;→�↓"�Ĩ֚}E�(F�0��Eo��Ɓ�����>��∟�+ҋ�
+խ�)�"����8Nq�����s���♠��I>|J?PK☺☻?¶�R3V$►TruFaaS-DepPkg/
+4�+�☺PK☺☻?�R3V�k��k}▬$ -TruFaaS-DepPkg/main.py
+ ☺↑�▬���+�☺�W���+�☺���{�+�☺PK♣♠☻☻��
