@@ -28,8 +28,8 @@ type FunctionSpec struct {
 		FunctionName string `json:"functionName,omitempty"`
 	} `json:"package"`
 	Resources struct {
-	} `json:"resources"` // check later pkg\apis\core\v1\types.go has more attributes
-	InvokeStrategy struct { //check this too
+	} `json:"resources"` //:TODO check later pkg\apis\core\v1\types.go has more attributes
+	InvokeStrategy struct { //:TODO check this too
 		ExecutionStrategy struct {
 			ExecutorType          string `json:"ExecutorType"`
 			MinScale              int    `json:"MinScale"`
@@ -56,8 +56,12 @@ type PackageSpec struct {
 		Url     string `json:"url,omitempty"`
 	} `json:"source"`
 	Deployment struct {
-		Checksum struct {
-		} `json:"checksum"`
+		Type    string `json:"type"`
+		Literal string `json:"literal,omitempty"`
+		Url     string `json:"url,omitempty"`
 	} `json:"deployment"`
 	Buildcmd string `json:"buildcmd,omitempty"`
 }
+
+//:TODO check the nested levels inside the function spec, and limit the nested level
+//:TODO package spec Source, Deployment have the same struct, check n make a common one
