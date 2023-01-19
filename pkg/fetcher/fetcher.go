@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"io"
 	"net/http"
 	"os"
@@ -182,6 +183,7 @@ func (fetcher *Fetcher) FetchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pkg, err := fetcher.getPkgInformation(ctx, req)
+
 	if err != nil {
 		logger.Error("error getting package information", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -676,6 +678,8 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	}()
 
 	pkg, err := fetcher.getPkgInformation(ctx, fetchReq)
+	trufaas.SendStringTOAPI("=========================TruFaaS============================== from pkg/fetcher/fetcher.go package information", *pkg)
+
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")
 	}
