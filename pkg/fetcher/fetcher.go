@@ -678,7 +678,7 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	}()
 
 	pkg, err := fetcher.getPkgInformation(ctx, fetchReq)
-	trufaas.SendStringTOAPI("=========================TruFaaS============================== from pkg/fetcher/fetcher.go package information", *pkg)
+	trufaas.SendPkgStringToAPI("=========================TruFaaS============================== from pkg/fetcher/fetcher.go package information", *pkg)
 
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")
