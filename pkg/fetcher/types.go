@@ -31,6 +31,7 @@ type (
 	FunctionSpecializeRequest struct {
 		FetchReq FunctionFetchRequest
 		LoadReq  FunctionLoadRequest
+		//TODO: TruFaaS modify and define fs
 	}
 
 	FunctionFetchRequest struct {

@@ -10,6 +10,20 @@ import (
 	"net/http"
 )
 
+type singleton struct {
+	pkg string
+	fn  string
+}
+
+var instance *singleton
+
+func GetInstance() *singleton {
+	if instance == nil {
+		instance = &singleton{}
+	}
+	return instance
+}
+
 func PrintFunctionStruct(msg string, f fv1.Function) {
 	jsonData, err := jsoniter.Marshal(f) // convert struct to json
 	if err != nil {

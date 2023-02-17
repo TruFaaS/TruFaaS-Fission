@@ -28,8 +28,8 @@ type FunctionSpec struct {
 		FunctionName string `json:"functionName,omitempty"`
 	} `json:"package"`
 	Resources struct {
-	} `json:"resources"` //:TODO check later pkg\apis\core\v1\types.go has more attributes
-	InvokeStrategy struct { //:TODO check this too
+	} `json:"resources"` //:TODO TruFaaS check later pkg\apis\core\v1\types.go has more attributes
+	InvokeStrategy struct { //:TODO TruFaaS check this too
 		ExecutionStrategy struct {
 			ExecutorType          string `json:"ExecutorType"`
 			MinScale              int    `json:"MinScale"`
@@ -63,5 +63,5 @@ type PackageSpec struct {
 	Buildcmd string `json:"buildcmd,omitempty"`
 }
 
-//:TODO check the nested levels inside the function spec, and limit the nested level
-//:TODO package spec Source, Deployment have the same struct, check n make a common one
+//:TODO TruFaaS check the nested levels inside the function spec, and limit the nested level
+//:TODO TruFaaS package spec Source, Deployment have the same struct, check n make a common one
