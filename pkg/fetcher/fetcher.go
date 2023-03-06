@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"io"
 	"net/http"
 	"os"
@@ -233,7 +234,7 @@ func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq) //TODO: TruFaaS modify and pass fn
+	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function) //TODO: TruFaaS modify and pass fn
 	if err != nil {
 		logger.Error("error specializing pod", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -668,7 +669,8 @@ func (fetcher *Fetcher) getPkgInformation(ctx context.Context, req FunctionFetch
 	return nil, err
 }
 
-func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetchRequest, loadReq FunctionLoadRequest) error {
+// SpecializePod TruFaaS Modification - added fns as an optional argument
+func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetchRequest, loadReq FunctionLoadRequest, fns ...fv1.Function) error {
 	logger := otelUtils.LoggerWithTraceID(ctx, fetcher.logger)
 	startTime := time.Now()
 	defer func() {
@@ -677,7 +679,11 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	}()
 
 	pkg, err := fetcher.getPkgInformation(ctx, fetchReq)
-	//trufaas.SendPkgStringToAPI("=========================TruFaaS============================== from pkg/fetcher/fetcher.go package information", *pkg)
+
+	//TruFaaS Modification - Verify trust if a function is passed
+	if len(fns) == 1 {
+		trufaas.VerifyTrust(fns[0], *pkg)
+	}
 
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")

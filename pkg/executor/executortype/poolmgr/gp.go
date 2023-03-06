@@ -393,8 +393,6 @@ func (gp *GenericPool) getFetcherURL(podIP string) string {
 func (gp *GenericPool) specializePod(ctx context.Context, pod *apiv1.Pod, fn *fv1.Function) error {
 	logger := otelUtils.LoggerWithTraceID(ctx, gp.logger)
 
-	//trufaas.LogFnStruct(logger, "From pkg/executor/executortype/poolmgr/gp.go", *fn)
-
 	// for fetcher we don't need to create a service, just talk to the pod directly
 	podIP := pod.Status.PodIP
 	if len(podIP) == 0 {
@@ -411,6 +409,9 @@ func (gp *GenericPool) specializePod(ctx context.Context, pod *apiv1.Pod, fn *fv
 	logger.Info("calling fetcher to copy function", zap.String("function", fn.ObjectMeta.Name), zap.String("url", fetcherURL))
 
 	specializeReq := gp.fetcherConfig.NewSpecializeRequest(fn, gp.env)
+
+	//TruFaaS Modification
+	specializeReq.Function = *fn
 
 	logger.Info("specializing pod", zap.String("function", fn.ObjectMeta.Name))
 
