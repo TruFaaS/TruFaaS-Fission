@@ -20,7 +20,6 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.1
 	github.com/imdario/mergo v0.3.13
 	github.com/influxdata/influxdb v1.10.0
-	github.com/json-iterator/go v1.1.12
 	github.com/mholt/archiver/v3 v3.5.1
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/ory/dockertest v3.3.5+incompatible
@@ -116,6 +115,7 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kevinburke/ssh_config v0.0.0-20201106050909-4977a11b4351 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/klauspost/pgzip v1.2.5 // indirect
