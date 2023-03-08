@@ -15,11 +15,8 @@ type (
 	}
 
 	FunctionSpec struct {
-		Environment struct {
-			Namespace string `json:"namespace"`
-			Name      string `json:"name"`
-		} `json:"environment"`
-		Package struct {
+		Environment Environment `json:"environment"`
+		Package     struct {
 			Packageref struct {
 				Namespace       string `json:"namespace"`
 				Name            string `json:"name"`
@@ -46,23 +43,21 @@ type (
 	}
 
 	PackageSpec struct {
-		Environment struct {
-			Namespace string `json:"namespace"`
-			Name      string `json:"name"`
-		} `json:"environment"`
-		Source struct {
-			Type    string `json:"type"`
-			Literal string `json:"literal,omitempty"`
-			Url     string `json:"url,omitempty"`
-		} `json:"source"`
-		Deployment struct {
-			Type    string `json:"type"`
-			Literal string `json:"literal,omitempty"`
-			Url     string `json:"url,omitempty"`
-		} `json:"deployment"`
-		Buildcmd string `json:"buildcmd,omitempty"`
+		Environment Environment `json:"environment"`
+		Source      Archive     `json:"source"`
+		Deployment  Archive     `json:"deployment"`
+		Buildcmd    string      `json:"buildcmd,omitempty"`
+	}
+
+	Environment struct {
+		Namespace string `json:"namespace"`
+		Name      string `json:"name"`
+	}
+	Archive struct {
+		Type    string `json:"type"`
+		Literal string `json:"literal,omitempty"`
+		Url     string `json:"url,omitempty"`
 	}
 )
 
 //:TODO TruFaaS check the nested levels inside the function spec, and limit the nested level
-//:TODO TruFaaS package spec Source, Deployment have the same struct, check n make a common one
