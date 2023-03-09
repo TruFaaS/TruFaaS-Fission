@@ -8,5 +8,17 @@ import (
 func VerifyTrust(fn fv1.Function, pkg fv1.Package) {
 	fmt.Println(fn.Name)
 	fmt.Println(pkg.Name)
-	//TODO:TruFaaS populate our own struct, send to API and get trust verified, if failed handle error
+
+	var fnMedatadata = createFnMetaDataAtInvocation(fn, pkg)
+	//TODO:use variable before building
+
+}
+
+func createFnMetaDataAtInvocation(fn fv1.Function, pkg fv1.Package) (fnMetadata FunctionMetaData) {
+	fnMetadata = FunctionMetaData{
+		FunctionInformation: createFunctionInformation(fn),
+		PackageInformation:  createPkgInformation(pkg),
+	}
+
+	return *fnMetaData
 }
