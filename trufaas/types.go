@@ -20,7 +20,7 @@ type (
 
 	FunctionSpec struct {
 		Environment     Environment    `json:"environment"`
-		Package         Package        `json:"package"`
+		PackageRef      PackageRef     `json:"package_ref"`
 		InvokeStrategy  InvokeStrategy `json:"invoke_strategy"`
 		FunctionTimeout int            `json:"function_timeout"`
 		IdleTimeout     int            `json:"idle_timeout"`
@@ -28,13 +28,10 @@ type (
 		RequestsPerPod  int            `json:"requests_per_pod"`
 	}
 
-	Package struct {
-		PackageRef struct {
-			Namespace       string `json:"namespace"`
-			Name            string `json:"name"`
-			ResourceVersion string `json:"resource_version"`
-		} `json:"packageRef"`
-		FunctionName string `json:"functionName,omitempty"`
+	PackageRef struct {
+		Namespace       string `json:"namespace"`
+		Name            string `json:"name"`
+		ResourceVersion string `json:"resource_version"`
 	}
 
 	InvokeStrategy struct { //:TODO TruFaaS check this too

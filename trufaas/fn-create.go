@@ -1,9 +1,9 @@
 package trufaas
 
 import (
+	"encoding/json"
 	"fmt"
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
-	"reflect"
 )
 
 var fnMetaData *FunctionMetaData
@@ -24,36 +24,29 @@ func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 
 func SendInfoToAPIAtCreate() {
 	fmt.Println("==========================Info send to api===============")
-	//fmt.Println(fnMetaData.Name)
-	fmt.Println(fnMetaData.PackageInformation.Name)
+	val, _ := json.Marshal(fnMetaData)
+	fmt.Println(string(val))
 	//TODO:TruFaaS send data to API and store
 }
 
 func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 
-	var srcArchive Archive
-	var deploymentArchive Archive
-	if reflect.ValueOf(pkg.Spec.Source).FieldByName("Type").IsValid() {
-		srcArchive = Archive{
-			Type:    string(pkg.Spec.Source.Type),
-			Literal: pkg.Spec.Source.Literal,
-			URL:     pkg.Spec.Source.URL,
-		}
-	} else {
-		deploymentArchive = Archive{
-			Type:    string(pkg.Spec.Deployment.Type),
-			Literal: pkg.Spec.Deployment.Literal,
-			URL:     pkg.Spec.Deployment.URL,
-		}
-	}
 	var pkgSpec = PackageSpec{
 		Environment: Environment{
 			Namespace: pkg.Spec.Environment.Namespace,
 			Name:      pkg.Spec.Environment.Name,
 		},
-		Source:     srcArchive,
-		Deployment: deploymentArchive,
-		Buildcmd:   pkg.Spec.BuildCommand,
+		Source: Archive{
+			Type:    string(pkg.Spec.Source.Type),
+			Literal: pkg.Spec.Source.Literal,
+			URL:     pkg.Spec.Source.URL,
+		},
+		Deployment: Archive{
+			Type:    string(pkg.Spec.Deployment.Type),
+			Literal: pkg.Spec.Deployment.Literal,
+			URL:     pkg.Spec.Deployment.URL,
+		},
+		Buildcmd: pkg.Spec.BuildCommand,
 	}
 
 	pkgInformation = PackageInformation{
@@ -67,8 +60,15 @@ func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 
 func createFunctionInformation(fn fv1.Function) (functionInformation FunctionInformation) {
 	var fnSpec = FunctionSpec{
-		Environment: Environment{},
-		Package:     Package{},
+		Environment: Environment{
+			Namespace: fn.Spec.Environment.Namespace,
+			Name:      fn.Spec.Environment.Name,
+		},
+		PackageRef: PackageRef{
+			Namespace:       fn.Spec.Package.PackageRef.Namespace,
+			Name:            fn.Spec.Package.PackageRef.Name,
+			ResourceVersion: fn.Spec.Package.PackageRef.ResourceVersion,
+		},
 		InvokeStrategy: InvokeStrategy{
 			ExecutionStrategy: ExecutionStrategy{
 				ExecutorType:          string(fn.Spec.InvokeStrategy.ExecutionStrategy.ExecutorType),
