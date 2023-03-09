@@ -38,14 +38,16 @@ type (
 	}
 
 	InvokeStrategy struct { //:TODO TruFaaS check this too
-		ExecutionStrategy struct {
-			ExecutorType          string `json:"executor-type"`
-			MinScale              int    `json:"min_scale"`
-			MaxScale              int    `json:"max_scale"`
-			TargetCPUPercent      int    `json:"target_cpu_percent"`
-			SpecializationTimeout int    `json:"specialization_timeout"`
-		} `json:"execution_strategy"`
-		StrategyType string `json:"strategy_type"`
+		ExecutionStrategy ExecutionStrategy `json:"execution_strategy"`
+		StrategyType      string            `json:"strategy_type"`
+	}
+
+	ExecutionStrategy struct {
+		ExecutorType          string `json:"executor-type"`
+		MinScale              int    `json:"min_scale"`
+		MaxScale              int    `json:"max_scale"`
+		TargetCPUPercent      int    `json:"target_cpu_percent"`
+		SpecializationTimeout int    `json:"specialization_timeout"`
 	}
 
 	PackageSpec struct {
