@@ -40,11 +40,19 @@ func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 			Type:    string(pkg.Spec.Source.Type),
 			Literal: pkg.Spec.Source.Literal,
 			URL:     pkg.Spec.Source.URL,
+			Checksum: Checksum{
+				Type: string(pkg.Spec.Source.Checksum.Type),
+				Sum:  pkg.Spec.Source.Checksum.Sum,
+			},
 		},
 		Deployment: Archive{
 			Type:    string(pkg.Spec.Deployment.Type),
 			Literal: pkg.Spec.Deployment.Literal,
 			URL:     pkg.Spec.Deployment.URL,
+			Checksum: Checksum{
+				Type: string(pkg.Spec.Deployment.Checksum.Type),
+				Sum:  pkg.Spec.Deployment.Checksum.Sum,
+			},
 		},
 		Buildcmd: pkg.Spec.BuildCommand,
 	}

@@ -60,9 +60,15 @@ type (
 	}
 
 	Archive struct {
-		Type    string `json:"type,omitempty"`
-		Literal []byte `json:"literal,omitempty"`
-		URL     string `json:"url,omitempty"`
+		Type     string   `json:"type,omitempty"`
+		Literal  []byte   `json:"literal,omitempty"`
+		URL      string   `json:"url,omitempty"`
+		Checksum Checksum `json:"checksum"`
+	}
+
+	Checksum struct {
+		Type string `json:"type"`
+		Sum  string `json:"sum"`
 	}
 )
 
