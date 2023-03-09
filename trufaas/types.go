@@ -59,10 +59,11 @@ type (
 		Namespace string `json:"namespace"`
 		Name      string `json:"name"`
 	}
+
 	Archive struct {
-		Type    string `json:"type"`
-		Literal string `json:"literal,omitempty"`
-		Url     string `json:"url,omitempty"`
+		Type    string `json:"type,omitempty"`
+		Literal []byte `json:"literal,omitempty"`
+		URL     string `json:"url,omitempty"`
 	}
 )
 
