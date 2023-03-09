@@ -2,16 +2,16 @@ package trufaas
 
 type (
 	FunctionInformation struct {
-		Name               string             `json:"functionName"`
-		Namespace          string             `json:"functionNamespace"`
-		PackageInformation PackageInformation `json:"packageInformation"`
-		Spec               FunctionSpec       `json:"functionSpec"`
+		Name               string             `json:"function_name"`
+		Namespace          string             `json:"function_namespace"`
+		PackageInformation PackageInformation `json:"package_information"`
+		Spec               FunctionSpec       `json:"function_spec"`
 	}
 
 	PackageInformation struct {
-		Name      string      `json:"packageName"`
-		Namespace string      `json:"packageNamespace"`
-		Spec      PackageSpec `json:"packageSpec"`
+		Name      string      `json:"package_name"`
+		Namespace string      `json:"package_namespace"`
+		Spec      PackageSpec `json:"package_spec"`
 	}
 
 	FunctionSpec struct {
@@ -24,22 +24,20 @@ type (
 			} `json:"packageRef"`
 			FunctionName string `json:"functionName,omitempty"`
 		} `json:"package"`
-		Resources struct {
-		} `json:"resources"` //:TODO TruFaaS check later pkg\apis\core\v1\types.go has more attributes
 		InvokeStrategy struct { //:TODO TruFaaS check this too
 			ExecutionStrategy struct {
-				ExecutorType          string `json:"ExecutorType"`
-				MinScale              int    `json:"MinScale"`
-				MaxScale              int    `json:"MaxScale"`
-				TargetCPUPercent      int    `json:"TargetCPUPercent"`
-				SpecializationTimeout int    `json:"SpecializationTimeout"`
-			} `json:"executionStrategy"`
-			StrategyType string `json:"strategyType"`
-		} `json:"invokeStrategy"`
-		FunctionTimeout int `json:"functionTimeout"`
-		Idletimeout     int `json:"idleTimeout"`
+				ExecutorType          string `json:"executor-type"`
+				MinScale              int    `json:"min_scale"`
+				MaxScale              int    `json:"max_scale"`
+				TargetCPUPercent      int    `json:"target_cpu_percent"`
+				SpecializationTimeout int    `json:"specialization_timeout"`
+			} `json:"execution_strategy"`
+			StrategyType string `json:"strategy_type"`
+		} `json:"invoke_strategy"`
+		FunctionTimeout int `json:"function_timeout"`
+		Idletimeout     int `json:"idle_timeout"`
 		Concurrency     int `json:"concurrency"`
-		RequestsPerPod  int `json:"requestsPerPod"`
+		RequestsPerPod  int `json:"requests_per_pod"`
 	}
 
 	PackageSpec struct {
