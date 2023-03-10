@@ -34,7 +34,7 @@ type (
 		ResourceVersion string `json:"resource_version"`
 	}
 
-	InvokeStrategy struct { //:TODO TruFaaS check this too
+	InvokeStrategy struct {
 		ExecutionStrategy ExecutionStrategy `json:"execution_strategy"`
 		StrategyType      string            `json:"strategy_type"`
 	}
@@ -71,5 +71,3 @@ type (
 		Sum  string `json:"sum"`
 	}
 )
-
-//:TODO TruFaaS check the nested levels inside the function spec, and limit the nested level
