@@ -49,8 +49,8 @@ type (
 
 	PackageSpec struct {
 		Environment Environment `json:"environment"`
-		Source      Archive     `json:"source"`
-		Deployment  Archive     `json:"deployment"`
+		Source      Archive     `json:"source,omitempty"`
+		Deployment  Archive     `json:"deployment,omitempty"`
 		Buildcmd    string      `json:"buildcmd,omitempty"`
 	}
 
@@ -63,11 +63,13 @@ type (
 		Type     string   `json:"type,omitempty"`
 		Literal  []byte   `json:"literal,omitempty"`
 		URL      string   `json:"url,omitempty"`
-		Checksum Checksum `json:"checksum"`
+		Checksum Checksum `json:"checksum,omitempty"`
 	}
 
 	Checksum struct {
-		Type string `json:"type"`
-		Sum  string `json:"sum"`
+		Type string `json:"type,omitempty"`
+		Sum  string `json:"sum,omitempty"`
 	}
 )
+
+//;TODO check for omit empty (compare with types core/v1/types/file)
