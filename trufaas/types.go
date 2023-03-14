@@ -31,7 +31,7 @@ type (
 	PackageRef struct {
 		Namespace       string `json:"namespace"`
 		Name            string `json:"name"`
-		ResourceVersion string `json:"resource_version"`
+		ResourceVersion string `json:"resource_version,omitempty"`
 	}
 
 	InvokeStrategy struct {
@@ -72,4 +72,4 @@ type (
 	}
 )
 
-//;TODO check for omit empty (compare with types core/v1/types/file)
+//TODO check for omit empty (compare with types core/v1/types/file)
