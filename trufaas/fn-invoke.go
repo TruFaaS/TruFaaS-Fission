@@ -8,20 +8,20 @@ import (
 func VerifyTrust(fn fv1.Function, pkg fv1.Package) {
 
 	fnMetaDataAtInvoke := createFnMetaDataAtInvocation(fn, pkg)
-	//body, err := SendToAPI(fnMetaDataAtInvoke, CreateURL, "POST")
-	//if err != nil {
-	//	panic(err)
-	//}
+	body, err := SendToAPI(fnMetaDataAtInvoke, CreateURL, "POST") //ToDo: TruFaaS change API URL
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println("==========================Response from API At Invoke===============")
-	fmt.Println(fnMetaDataAtInvoke)
+	fmt.Println(body)
 
 }
 
-func createFnMetaDataAtInvocation(fn fv1.Function, pkg fv1.Package) (fnMetadata FunctionMetaData) {
-	fnMetadata = FunctionMetaData{
+func createFnMetaDataAtInvocation(fn fv1.Function, pkg fv1.Package) FunctionMetaData {
+	fnMetaDataInvocation := FunctionMetaData{
 		FunctionInformation: createFunctionInformation(fn),
 		PackageInformation:  createPkgInformation(pkg),
 	}
 
-	return *fnMetaData
+	return fnMetaDataInvocation
 }

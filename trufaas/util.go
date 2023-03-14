@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
+func createPkgInformation(pkg fv1.Package) PackageInformation {
 
 	var pkgSpec = PackageSpec{
 		Environment: Environment{
@@ -28,7 +28,7 @@ func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 		Buildcmd: pkg.Spec.BuildCommand,
 	}
 
-	pkgInformation = PackageInformation{
+	pkgInformation := PackageInformation{
 		Name:      pkg.Name,
 		Namespace: pkg.Namespace,
 		Spec:      pkgSpec,
@@ -37,7 +37,7 @@ func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 	return pkgInformation
 }
 
-func createFunctionInformation(fn fv1.Function) (functionInformation FunctionInformation) {
+func createFunctionInformation(fn fv1.Function) FunctionInformation {
 	var fnSpec = FunctionSpec{
 		Environment: Environment{
 			Namespace: fn.Spec.Environment.Namespace,
@@ -64,7 +64,7 @@ func createFunctionInformation(fn fv1.Function) (functionInformation FunctionInf
 		RequestsPerPod:  fn.Spec.RequestsPerPod,
 	}
 
-	functionInformation = FunctionInformation{
+	functionInformation := FunctionInformation{
 		Name:      fn.Name,
 		Namespace: fn.Namespace,
 		Spec:      fnSpec,
