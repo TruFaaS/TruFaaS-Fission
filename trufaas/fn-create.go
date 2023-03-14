@@ -1,7 +1,6 @@
 package trufaas
 
 import (
-	"encoding/json"
 	"fmt"
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 )
@@ -23,8 +22,11 @@ func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 }
 
 func SendInfoToAPIAtCreate() {
-	fmt.Println("==========================Info send to api===============")
-	val, _ := json.Marshal(fnMetaData)
-	fmt.Println(string(val))
-	//TODO:TruFaaS send data to API and store
+	body, err := SendToAPI(*fnMetaData, CreateURL, "POST")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("==========================Response from API===============")
+	fmt.Println(string(body))
+
 }

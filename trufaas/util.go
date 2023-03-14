@@ -1,6 +1,12 @@
 package trufaas
 
-import fv1 "github.com/fission/fission/pkg/apis/core/v1"
+import (
+	"bytes"
+	fv1 "github.com/fission/fission/pkg/apis/core/v1"
+	jsoniter "github.com/json-iterator/go"
+	"io"
+	"net/http"
+)
 
 func createPkgInformation(pkg fv1.Package) (pkgInformation PackageInformation) {
 
@@ -65,4 +71,28 @@ func createFunctionInformation(fn fv1.Function) (functionInformation FunctionInf
 	}
 
 	return functionInformation
+}
+
+func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, error) {
+	jsonBody, err := jsoniter.Marshal(fnMetaData) // convert struct to json
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest(method, URL, bytes.NewBuffer(jsonBody))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+
+	// Read the response body
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
 }

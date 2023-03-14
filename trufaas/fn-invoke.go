@@ -6,11 +6,14 @@ import (
 )
 
 func VerifyTrust(fn fv1.Function, pkg fv1.Package) {
-	fmt.Println(fn.Name)
-	fmt.Println(pkg.Name)
 
-	var fnMedatadata = createFnMetaDataAtInvocation(fn, pkg)
-	//TODO:use variable before building
+	fnMetaDataAtInvoke := createFnMetaDataAtInvocation(fn, pkg)
+	//body, err := SendToAPI(fnMetaDataAtInvoke, CreateURL, "POST")
+	//if err != nil {
+	//	panic(err)
+	//}
+	fmt.Println("==========================Response from API At Invoke===============")
+	fmt.Println(fnMetaDataAtInvoke)
 
 }
 
