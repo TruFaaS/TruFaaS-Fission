@@ -27,6 +27,7 @@ import (
 
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	"github.com/fission/fission/pkg/controller/client/rest"
+	"github.com/pkg/errors"
 )
 
 type (
@@ -66,7 +67,10 @@ func (c *Function) Create(f *fv1.Function) (*metav1.ObjectMeta, error) {
 	//TruFaaS Modification
 	fnInfo := trufaas.GetInstanceAtCreate()
 	fnInfo.SaveFnInfoAtCreate(*f)
-	trufaas.SendInfoToAPIAtCreate()
+	err = trufaas.SendInfoToAPIAtCreate()
+	if err != nil {
+		return nil, errors.Wrap(err, "TruFaaS - error pushing function info to API")
+	}
 
 	resp, err := c.client.Create("functions", "application/json", reqbody)
 	if err != nil {

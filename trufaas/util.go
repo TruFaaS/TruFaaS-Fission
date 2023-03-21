@@ -2,6 +2,7 @@ package trufaas
 
 import (
 	"bytes"
+	"fmt"
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	jsoniter "github.com/json-iterator/go"
 	"io"
@@ -86,13 +87,17 @@ func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, 
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
-
-	// Read the response body
-	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body) // Read the response body
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated { // If not success
+		return body, fmt.Errorf("[Error Response] %s", string(body))
+	}
 	return body, nil
 }

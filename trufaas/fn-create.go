@@ -21,12 +21,12 @@ func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 	fnMetaData.FunctionInformation = createFunctionInformation(fn)
 }
 
-func SendInfoToAPIAtCreate() {
+func SendInfoToAPIAtCreate() error {
 	body, err := SendToAPI(*fnMetaData, CreateURL, "POST")
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("[Error Response] %s", string(body))
 	}
-	fmt.Println("==========================Response from API===============")
+	fmt.Println("<<<<<<<<<<<<<<<Response from TruFaaS API>>>>>>>>>>>>>>>>>>")
 	fmt.Println(string(body))
-
+	return nil
 }

@@ -679,14 +679,15 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	}()
 
 	pkg, err := fetcher.getPkgInformation(ctx, fetchReq)
-
-	//TruFaaS Modification - Verify trust if a function is passed
-	if len(fns) == 1 {
-		trufaas.VerifyTrust(fns[0], *pkg)
-	}
-
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")
+	}
+	//TruFaaS Modification - Verify trust if a function is passed
+	if len(fns) == 1 {
+		err = trufaas.VerifyTrust(fns[0], *pkg)
+		if err != nil {
+			return errors.Wrap(err, "TruFaaS - error verifying trust of function")
+		}
 	}
 
 	_, err = fetcher.Fetch(ctx, pkg, fetchReq)
