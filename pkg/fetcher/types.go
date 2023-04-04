@@ -31,7 +31,7 @@ type (
 	FunctionSpecializeRequest struct {
 		FetchReq FunctionFetchRequest
 		LoadReq  FunctionLoadRequest
-		//TruFaaS Modification
+		//TruFaaS Modification - modified FunctionSpecializeRequest
 		Function fv1.Function // Optional, to pass the function object to fetcher, so we can get info from one place
 	}
 

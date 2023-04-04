@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"github.com/fission/fission/trufaas"
 	"io"
 	"net/http"
 	"strings"
@@ -101,6 +102,11 @@ func sendRequest(logger *zap.Logger, ctx context.Context, httpClient *http.Clien
 			msg := "error specializing function pod, either increase the specialization timeout for function or check function pod log would help."
 			err = errors.Wrap(err, msg)
 			logger.Error(msg, zap.Error(err), zap.String("url", url))
+			return nil, err
+		}
+
+		//TruFaaS Modification - skip retrying if trust verification failed in fetcher /specialize
+		if strings.Contains(err.Error(), trufaas.TrustVerificationFailedMsg) {
 			return nil, err
 		}
 

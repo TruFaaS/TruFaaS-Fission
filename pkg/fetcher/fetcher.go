@@ -233,8 +233,8 @@ func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function) //TODO: TruFaaS modify and pass fn
+	//TruFaaS Modification - passed req.Function to specializePod
+	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function)
 	if err != nil {
 		logger.Error("error specializing pod", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)

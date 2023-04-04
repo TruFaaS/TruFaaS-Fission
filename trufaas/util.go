@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+// createPkgInformation - util method to create/populate a trufaas.PackageInformation struct using a fv1.Package struct
 func createPkgInformation(pkg fv1.Package) PackageInformation {
 
 	var pkgSpec = PackageSpec{
@@ -38,6 +39,7 @@ func createPkgInformation(pkg fv1.Package) PackageInformation {
 	return pkgInformation
 }
 
+// createFunctionInformation - util method to create/populate a trufaas.FunctionInformation struct using a fv1.Function struct
 func createFunctionInformation(fn fv1.Function) FunctionInformation {
 	var fnSpec = FunctionSpec{
 		Environment: Environment{
@@ -74,6 +76,7 @@ func createFunctionInformation(fn fv1.Function) FunctionInformation {
 	return functionInformation
 }
 
+// SendToAPI - util method to send fnMetaData struct to trufaas external component
 func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, error) {
 	jsonBody, err := jsoniter.Marshal(fnMetaData) // convert struct to json
 	if err != nil {

@@ -1,5 +1,6 @@
 package trufaas
 
+// FunctionMetaData - used to store fn information necessary for trust calculations
 type (
 	FunctionMetaData struct {
 		FunctionInformation FunctionInformation `json:"function_information"`
