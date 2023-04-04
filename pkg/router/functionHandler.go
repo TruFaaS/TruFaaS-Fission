@@ -738,9 +738,9 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 			msg := "no response from function before timeout"
 			logger.Error(msg, zap.Any("function", fh.function), zap.String("status", http.StatusText(status)))
 		default:
-			code, _ := ferror.GetHTTPError(err)
+			code, str := ferror.GetHTTPError(err)
 			status = code
-			msg = "error sending request to function"
+			msg = "error sending request to function" + str
 			logger.Error(msg, zap.Error(err), zap.Any("function", fh.function),
 				zap.Any("status", http.StatusText(status)), zap.Int("code", code))
 		}
