@@ -7,20 +7,25 @@ import (
 
 var fnMetaData *FunctionMetaData
 
+// GetInstanceAtCreate returns singleton FnMetaData instance to populate with data
 func GetInstanceAtCreate() *FunctionMetaData {
 	if fnMetaData == nil {
 		fnMetaData = &FunctionMetaData{}
 	}
 	return fnMetaData
 }
+
+// SavePkgInfoAtCreate populate the function pkg information
 func (fnMetaData *FunctionMetaData) SavePkgInfoAtCreate(pkg fv1.Package) {
 	fnMetaData.PackageInformation = createPkgInformation(pkg)
 }
 
+// SaveFnInfoAtCreate populate function information
 func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 	fnMetaData.FunctionInformation = createFunctionInformation(fn)
 }
 
+// SendInfoToAPIAtCreate sends the populated FnMetaData to TruFaaS external component
 func SendInfoToAPIAtCreate() error {
 	body, err := SendToAPI(*fnMetaData, CreateURL, "POST")
 	if err != nil {

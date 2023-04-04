@@ -741,7 +741,7 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 		default:
 			code, errMsg := ferror.GetHTTPError(err)
 			status = code
-			//TruFaaS Modification
+			//TruFaaS Modification - Modifying error message when trust fails
 			if strings.Contains(errMsg, trufaas.TrustVerificationFailedMsg) {
 				msg = trufaas.TrustVerificationFailedMsg
 			} else {

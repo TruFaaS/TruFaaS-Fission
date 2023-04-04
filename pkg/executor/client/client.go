@@ -43,7 +43,7 @@ type (
 		tappedByURL map[string]TapServiceRequest
 		requestChan chan TapServiceRequest
 		httpClient  *retryablehttp.Client
-		//TruFaaS modification
+		//TruFaaS modification - added trufaas client to avoid retries,error masking
 		truFaaSHttpClient *http.Client // http client to send requests
 	}
 
@@ -89,7 +89,7 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 	req.Header.Set("Content-Type", "application/json")
 
 	//resp, err := c.httpClient.Do(req)
-	//TruFaaS modification
+	//TruFaaS modification - used trufaasHttpClient
 	resp, err := c.truFaaSHttpClient.Do(req)
 	if err != nil {
 		return "", errors.Wrap(err, "error posting to getting service for function.")
