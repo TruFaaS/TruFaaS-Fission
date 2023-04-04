@@ -1,5 +1,5 @@
 package trufaas
 
 const (
-	TrustVerificationFailedMsg = "TruFaaS - Function Trust Verification Failed."
+	TrustVerificationFailedMsg = "[TruFaaS] Function Invocation Stopped.Reason: Function Trust Verification Failed."
 )
