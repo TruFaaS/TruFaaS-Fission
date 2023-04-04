@@ -38,12 +38,13 @@ import (
 type (
 	// Client is wrapper on a HTTP client.
 	Client struct {
-		logger            *zap.Logger
-		executorURL       string
-		tappedByURL       map[string]TapServiceRequest
-		requestChan       chan TapServiceRequest
-		httpClient        *retryablehttp.Client
-		truFaaSHttpClient *http.Client
+		logger      *zap.Logger
+		executorURL string
+		tappedByURL map[string]TapServiceRequest
+		requestChan chan TapServiceRequest
+		httpClient  *retryablehttp.Client
+		//TruFaaS modification
+		truFaaSHttpClient *http.Client // http client to send requests
 	}
 
 	// TapServiceRequest represents
@@ -80,6 +81,7 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 	}
 
 	//req, err := retryablehttp.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
+	//TruFaaS modification
 	req, err := http.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
 	if err != nil {
 		return "", errors.Wrap(err, "could not create request for getting service for function")
@@ -87,9 +89,9 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 	req.Header.Set("Content-Type", "application/json")
 
 	//resp, err := c.httpClient.Do(req)
-	resp, err := clinet.Do(req)
+	//TruFaaS modification
+	resp, err := c.truFaaSHttpClient.Do(req)
 	if err != nil {
-		//TruFaaS
 		return "", errors.Wrap(err, "error posting to getting service for function - Test")
 	}
 	defer resp.Body.Close()
