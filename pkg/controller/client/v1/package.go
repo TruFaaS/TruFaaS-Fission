@@ -19,6 +19,7 @@ package v1
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 
 	"github.com/fission/fission/pkg/controller/client/rest"
 
@@ -59,6 +60,9 @@ func (c *Package) Create(f *fv1.Package) (*metav1.ObjectMeta, error) {
 	if err != nil {
 		return nil, err
 	}
+	//TruFaas Modification - save pkg info at create
+	fnInfo := trufaas.GetInstanceAtCreate()
+	fnInfo.SavePkgInfoAtCreate(*f)
 
 	resp, err := c.client.Create("packages", "application/json", reqbody)
 	if err != nil {

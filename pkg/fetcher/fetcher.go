@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"io"
 	"net/http"
 	"os"
@@ -182,6 +183,7 @@ func (fetcher *Fetcher) FetchHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pkg, err := fetcher.getPkgInformation(ctx, req)
+
 	if err != nil {
 		logger.Error("error getting package information", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -231,8 +233,8 @@ func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq)
+	//TruFaaS Modification - passed req.Function to specializePod
+	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function)
 	if err != nil {
 		logger.Error("error specializing pod", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -667,7 +669,8 @@ func (fetcher *Fetcher) getPkgInformation(ctx context.Context, req FunctionFetch
 	return nil, err
 }
 
-func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetchRequest, loadReq FunctionLoadRequest) error {
+// SpecializePod TruFaaS Modification - added fns as an optional argument
+func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetchRequest, loadReq FunctionLoadRequest, fns ...fv1.Function) error {
 	logger := otelUtils.LoggerWithTraceID(ctx, fetcher.logger)
 	startTime := time.Now()
 	defer func() {
@@ -678,6 +681,13 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	pkg, err := fetcher.getPkgInformation(ctx, fetchReq)
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")
+	}
+	//TruFaaS Modification - Verify trust if a function is passed
+	if len(fns) == 1 {
+		err = trufaas.VerifyTrust(fns[0], *pkg)
+		if err != nil {
+			return errors.New(trufaas.TrustVerificationFailedMsg)
+		}
 	}
 
 	_, err = fetcher.Fetch(ctx, pkg, fetchReq)

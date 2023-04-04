@@ -1,0 +1,65 @@
+=========================TruFaaS==============================
+
+from pkg/fetcher/fetcher.go package information
+{
+  "metadata": {
+    "name": "hello-js-29bd918d-60f2-4b56-b9c7-603aa9975388",
+    "namespace": "default",
+    "uid": "fa86ed71-ef7b-4929-ace2-d864319e3b78",
+    "resourceVersion": "19134",
+    "generation": 1,
+    "creationTimestamp": "2023-01-19T08:20:38Z",
+    "managedFields": [
+      {
+        "manager": "fission-bundle",
+        "operation": "Update",
+        "apiVersion": "fission.io/v1",
+        "time": "2023-01-19T08:20:38Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:spec": {
+            ".": {},
+            "f:deployment": {
+              ".": {},
+              "f:checksum": {},
+              "f:literal": {},
+              "f:type": {}
+            },
+            "f:environment": {
+              ".": {},
+              "f:name": {},
+              "f:namespace": {}
+            },
+            "f:source": {
+              ".": {},
+              "f:checksum": {}
+            }
+          },
+          "f:status": {
+            ".": {},
+            "f:buildstatus": {},
+            "f:lastUpdateTimestamp": {}
+          }
+        }
+      }
+    ]
+  },
+  "spec": {
+    "environment": {
+      "namespace": "default",
+      "name": "nodejs"
+    },
+    "source": {
+      "checksum": {}
+    },
+    "deployment": {
+      "type": "literal",
+      "literal": "Cm1vZHVsZS5leHBvcnRzID0gYXN5bmMgZnVuY3Rpb24oY29udGV4dCkgewogICAgcmV0dXJuIHsKICAgICAgICBzdGF0dXM6IDIwMCwKICAgICAgICBib2R5OiAiaGVsbG8sIHdvcmxkIVxuIgogICAgfTsKfQo=",
+      "checksum": {}
+    }
+  },
+  "status": {
+    "buildstatus": "succeeded",
+    "lastUpdateTimestamp": "2023-01-19T08:20:38Z"
+  }
+}

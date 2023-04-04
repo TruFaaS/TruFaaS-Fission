@@ -410,6 +410,9 @@ func (gp *GenericPool) specializePod(ctx context.Context, pod *apiv1.Pod, fn *fv
 
 	specializeReq := gp.fetcherConfig.NewSpecializeRequest(fn, gp.env)
 
+	//TruFaaS Modification - set fn to specializeReq
+	specializeReq.Function = *fn
+
 	logger.Info("specializing pod", zap.String("function", fn.ObjectMeta.Name))
 
 	// Fetcher will download user function to share volume of pod, and

@@ -18,7 +18,6 @@ package function
 
 import (
 	"fmt"
-
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	asv2beta2 "k8s.io/api/autoscaling/v2beta2"

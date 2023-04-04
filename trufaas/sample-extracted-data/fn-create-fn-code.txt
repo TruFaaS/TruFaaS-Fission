@@ -1,0 +1,37 @@
+========================TruFaaS-Fn-Print======================
+From pkg/controller/client/v1/function.go
+{
+  "metadata": {
+    "name": "hello-js",
+    "namespace": "default",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "environment": {
+      "namespace": "default",
+      "name": "nodejs"
+    },
+    "package": {
+      "packageref": {
+        "namespace": "default",
+        "name": "hello-js-29bd918d-60f2-4b56-b9c7-603aa9975388",
+        "resourceversion": "19134"
+      }
+    },
+    "resources": {},
+    "InvokeStrategy": {
+      "ExecutionStrategy": {
+        "ExecutorType": "poolmgr",
+        "MinScale": 0,
+        "MaxScale": 0,
+        "TargetCPUPercent": 0,
+        "SpecializationTimeout": 120
+      },
+      "StrategyType": "execution"
+    },
+    "functionTimeout": 60,
+    "idletimeout": 120,
+    "concurrency": 500,
+    "requestsPerPod": 1
+  }
+}

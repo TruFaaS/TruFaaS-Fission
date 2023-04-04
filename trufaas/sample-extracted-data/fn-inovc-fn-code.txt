@@ -1,0 +1,80 @@
+"================TruFaaS====================== From pkg/executor/executortype/poolmgr/gp.go
+{
+  "kind": "Function",
+  "apiVersion": "fission.io/v1",
+  "metadata": {
+    "name": "hello-js",
+    "namespace": "default",
+    "uid": "d3b863bf-a320-447a-9e19-22409e177da3",
+    "resourceVersion": "137044",
+    "generation": 1,
+    "creationTimestamp": "2023-01-11T14:55:16Z",
+    "managedFields": [
+      {
+        "manager": "fission-bundle",
+        "operation": "Update",
+        "apiVersion": "fission.io/v1",
+        "time": "2023-01-11T14:55:16Z",
+        "fieldsType": "FieldsV1",
+        "fieldsV1": {
+          "f:spec": {
+            ".": {},
+            "f:InvokeStrategy": {
+              ".": {},
+              "f:ExecutionStrategy": {
+                ".": {},
+                "f:ExecutorType": {},
+                "f:MaxScale": {},
+                "f:MinScale": {},
+                "f:SpecializationTimeout": {},
+                "f:TargetCPUPercent": {}
+              },
+              "f:StrategyType": {}
+            },
+            "f:concurrency": {},
+            "f:environment": { ".": {}, "f:name": {}, "f:namespace": {} },
+            "f:functionTimeout": {},
+            "f:idletimeout": {},
+            "f:package": {
+              ".": {},
+              "f:packageref": {
+                ".": {},
+                "f:name": {},
+                "f:namespace": {},
+                "f:resourceversion": {}
+              }
+            },
+            "f:requestsPerPod": {},
+            "f:resources": {}
+          }
+        }
+      }
+    ]
+  },
+  "spec": {
+    "environment": { "namespace": "default", "name": "nodejs" },
+    "package": {
+      "packageref": {
+        "namespace": "default",
+        "name": "hello-js-63733ac8-9f71-4eba-b200-48644231a95a",
+        "resourceversion": "137043"
+      }
+    },
+    "resources": {},
+    "InvokeStrategy": {
+      "ExecutionStrategy": {
+        "ExecutorType": "poolmgr",
+        "MinScale": 0,
+        "MaxScale": 0,
+        "TargetCPUPercent": 0,
+        "SpecializationTimeout": 120
+      },
+      "StrategyType": "execution"
+    },
+    "functionTimeout": 60,
+    "idletimeout": 120,
+    "concurrency": 500,
+    "requestsPerPod": 1
+  }
+}
+

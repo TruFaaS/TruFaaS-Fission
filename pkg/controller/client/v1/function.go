@@ -19,6 +19,7 @@ package v1
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"net/url"
 
 	apiv1 "k8s.io/api/core/v1"
@@ -26,6 +27,7 @@ import (
 
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	"github.com/fission/fission/pkg/controller/client/rest"
+	"github.com/pkg/errors"
 )
 
 type (
@@ -61,6 +63,13 @@ func (c *Function) Create(f *fv1.Function) (*metav1.ObjectMeta, error) {
 	reqbody, err := json.Marshal(f)
 	if err != nil {
 		return nil, err
+	}
+	//TruFaaS Modification - send fn metadata to API at create
+	fnInfo := trufaas.GetInstanceAtCreate()
+	fnInfo.SaveFnInfoAtCreate(*f)
+	err = trufaas.SendInfoToAPIAtCreate()
+	if err != nil {
+		return nil, errors.Wrap(err, "TruFaaS - error pushing function info to API")
 	}
 
 	resp, err := c.client.Create("functions", "application/json", reqbody)
