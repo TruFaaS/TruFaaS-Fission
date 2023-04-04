@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/fission/fission/trufaas"
 	"io"
 	"math/rand"
 	"net"
@@ -738,9 +739,14 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 			msg := "no response from function before timeout"
 			logger.Error(msg, zap.Any("function", fh.function), zap.String("status", http.StatusText(status)))
 		default:
-			code, _ := ferror.GetHTTPError(err)
+			code, errMsg := ferror.GetHTTPError(err)
 			status = code
-			msg = "error sending request to function"
+			//TruFaaS Modification
+			if strings.Contains(errMsg, trufaas.TrustVerificationFailedMsg) {
+				msg = trufaas.TrustVerificationFailedMsg
+			} else {
+				msg = "error sending request to function"
+			}
 			logger.Error(msg, zap.Error(err), zap.Any("function", fh.function),
 				zap.Any("status", http.StatusText(status)), zap.Int("code", code))
 		}

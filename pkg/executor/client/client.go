@@ -21,6 +21,7 @@ import (
 	"context"
 	"encoding/json"
 	"io"
+	"net/http"
 	"net/url"
 	"strings"
 	"time"
@@ -42,6 +43,8 @@ type (
 		tappedByURL map[string]TapServiceRequest
 		requestChan chan TapServiceRequest
 		httpClient  *retryablehttp.Client
+		//TruFaaS modification
+		truFaaSHttpClient *http.Client // http client to send requests
 	}
 
 	// TapServiceRequest represents
@@ -55,12 +58,14 @@ type (
 // MakeClient initializes and returns a Client instance.
 func MakeClient(logger *zap.Logger, executorURL string) *Client {
 	hc := retryablehttp.NewClient()
+	tc := &http.Client{}
 	c := &Client{
-		logger:      logger.Named("executor_client"),
-		executorURL: strings.TrimSuffix(executorURL, "/"),
-		tappedByURL: make(map[string]TapServiceRequest),
-		requestChan: make(chan TapServiceRequest, 100),
-		httpClient:  hc,
+		logger:            logger.Named("executor_client"),
+		executorURL:       strings.TrimSuffix(executorURL, "/"),
+		tappedByURL:       make(map[string]TapServiceRequest),
+		requestChan:       make(chan TapServiceRequest, 100),
+		httpClient:        hc,
+		truFaaSHttpClient: tc,
 	}
 	go c.service()
 	return c
@@ -75,15 +80,19 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 		return "", errors.Wrap(err, "could not marshal request body for getting service for function")
 	}
 
-	req, err := retryablehttp.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
+	//req, err := retryablehttp.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
+	//TruFaaS modification
+	req, err := http.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
 	if err != nil {
 		return "", errors.Wrap(err, "could not create request for getting service for function")
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := c.httpClient.Do(req)
+	//resp, err := c.httpClient.Do(req)
+	//TruFaaS modification
+	resp, err := c.truFaaSHttpClient.Do(req)
 	if err != nil {
-		return "", errors.Wrap(err, "error posting to getting service for function")
+		return "", errors.Wrap(err, "error posting to getting service for function.")
 	}
 	defer resp.Body.Close()
 
