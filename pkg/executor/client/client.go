@@ -92,7 +92,7 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 	//TruFaaS modification
 	resp, err := c.truFaaSHttpClient.Do(req)
 	if err != nil {
-		return "", errors.Wrap(err, "error posting to getting service for function - Test")
+		return "", errors.Wrap(err, "error posting to getting service for function.")
 	}
 	defer resp.Body.Close()
 
