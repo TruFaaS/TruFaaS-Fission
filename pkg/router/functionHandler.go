@@ -330,6 +330,8 @@ func (roundTripper *RetryingRoundTripper) RoundTrip(req *http.Request) (*http.Re
 			dumpRespFunc(resp)
 		}
 		if err == nil {
+			// TruFaaS Modification
+			trufaas.AddTrustProtocolHeadersToFnResponse(resp)
 			// return response back to user
 			return resp, nil
 		}
@@ -757,6 +759,8 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 		})
 
 		// TODO: return error message that contains traceable UUID back to user. Issue #693
+		// TruFaaS Modification
+		trufaas.AddTrustProtocolHeadersToErrResponse(rw)
 		rw.WriteHeader(status)
 		_, err = rw.Write([]byte(msg))
 		if err != nil {

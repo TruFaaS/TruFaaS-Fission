@@ -11,7 +11,7 @@
 
 ## Function Test
 
- 1. Windows --> Run ```./trufaas/scripts/fn-test.bat hi {fnName}```
+ 1. Windows --> Run ```./trufaas/scripts/fn-test.bat {fnName}```
 
 ## Others
 

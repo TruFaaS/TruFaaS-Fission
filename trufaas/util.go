@@ -99,6 +99,7 @@ func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, 
 	if err != nil {
 		return nil, err
 	}
+	GetTrustProtocolHeadersFromExComp(*resp)
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated { // If not success
 		return body, fmt.Errorf("[Error Response] %s", string(body))
 	}
