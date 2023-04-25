@@ -3,9 +3,10 @@ package trufaas
 import "net/http"
 
 var protocolHeaders = map[string]string{
-	TrustVerificationStatus: "",
-	MsgAuthCode:             "",
-	VerifiedFnName:          "",
+	ProtocolTrustVerificationStatus: "",
+	ProtocolMsgAuthCode:             "",
+	ProtocolVerifiedFnName:          "",
+	ProtocolInvokerPubKey:           " ",
 }
 
 func GetTrustProtocolHeadersFromExComp(resp http.Response) {
@@ -34,9 +35,14 @@ func AddTrustProtocolHeadersToErrResponse(rw http.ResponseWriter) {
 }
 
 func AddTrustProtocolHeadersToExCompReq(req *http.Request) {
-
+	if protocolHeaders[ProtocolInvokerPubKey] != "" {
+		req.Header.Set(ProtocolInvokerPubKey, protocolHeaders[ProtocolInvokerPubKey])
+	}
 }
 
 func GetTrustProtocolHeadersFromInvoker(req *http.Request) {
-
+	invokerPubKey := req.Header.Get(ProtocolInvokerPubKey)
+	if invokerPubKey != "" {
+		protocolHeaders[ProtocolInvokerPubKey] = invokerPubKey
+	}
 }

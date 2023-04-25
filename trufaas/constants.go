@@ -8,8 +8,8 @@ const (
 	TrustVerificationFailedMsg    = "[TruFaaS] Function Invocation Stopped as Function Trust Verification Failed."
 
 	// Trust Protocol Headers
-	InvokerPubKey           = "Invoker-Public-Key"
-	MsgAuthCode             = "MAC"
-	TrustVerificationStatus = "Trust-Verification-Status"
-	VerifiedFnName          = "Function-Name"
+	ProtocolInvokerPubKey           = "Invoker-Public-Key"
+	ProtocolMsgAuthCode             = "MAC"
+	ProtocolTrustVerificationStatus = "Trust-Verification-Status"
+	ProtocolVerifiedFnName          = "Function-Name"
 )

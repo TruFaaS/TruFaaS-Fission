@@ -83,6 +83,7 @@ func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, 
 		return nil, err
 	}
 	req, err := http.NewRequest(method, URL, bytes.NewBuffer(jsonBody))
+	AddTrustProtocolHeadersToExCompReq(req)
 	if err != nil {
 		return nil, err
 	}
