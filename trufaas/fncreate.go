@@ -28,7 +28,7 @@ func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 
 // SendInfoToAPIAtCreate sends the populated FnMetaData to TruFaaS external component
 func SendInfoToAPIAtCreate() error {
-	_, err := SendToAPI(*fnMetaData, CreateURL, "POST")
+	_, err := SendToExternalComp(*fnMetaData, CreateURL, "POST")
 	if err != nil {
 		return errors.New(TrustValuesCreationFailMsg)
 	}

@@ -212,6 +212,8 @@ func (fetcher *Fetcher) FetchHandler(w http.ResponseWriter, r *http.Request) {
 
 func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+	// TruFaaS Modification [Protocol]  - Protocol headers saved in fetcher
+	trufaas.GetTrustProtocolHeadersFromReq(r)
 
 	if r.Method != "POST" {
 		http.Error(w, fmt.Sprintf("only POST is supported on this endpoint, %v received", r.Method), http.StatusMethodNotAllowed)
@@ -233,13 +235,15 @@ func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	//TruFaaS Modification - passed req.Function to specializePod
+	// TruFaaS Modification - passed req.Function to specializePod
 	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function)
 	if err != nil {
 		logger.Error("error specializing pod", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
+	trufaas.AddTrustProtocolHeadersToRespWriter(w)
 
 	// all done
 	w.WriteHeader(http.StatusOK)
@@ -682,7 +686,7 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	if err != nil {
 		return errors.Wrap(err, "error getting package information")
 	}
-	//TruFaaS Modification - Verify trust if a function is passed
+	// TruFaaS Modification - Verify trust if a function is passed
 	if len(fns) == 1 {
 		err = trufaas.VerifyTrust(fns[0], *pkg)
 		if err != nil {

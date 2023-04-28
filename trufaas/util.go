@@ -76,19 +76,19 @@ func createFunctionInformation(fn fv1.Function) FunctionInformation {
 	return functionInformation
 }
 
-// SendToAPI - util method to send fnMetaData struct to trufaas external component
-func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, error) {
+// SendToExternalComp - util method to send fnMetaData struct to trufaas external component
+func SendToExternalComp(fnMetaData FunctionMetaData, URL string, method string) ([]byte, error) {
 	jsonBody, err := jsoniter.Marshal(fnMetaData) // convert struct to json
 	if err != nil {
 		return nil, err
 	}
 	req, err := http.NewRequest(method, URL, bytes.NewBuffer(jsonBody))
-	AddTrustProtocolHeadersToExCompReq(req)
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json")
+	AddTrustProtocolHeadersToReq(req) // Add necessary trust protocol headers
 
+	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -100,7 +100,7 @@ func SendToAPI(fnMetaData FunctionMetaData, URL string, method string) ([]byte, 
 	if err != nil {
 		return nil, err
 	}
-	GetTrustProtocolHeadersFromExComp(*resp)
+	GetTrustProtocolHeadersFromResp(resp)                                          // Get necessary trust protocol headers
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated { // If not success
 		return body, fmt.Errorf("[Error Response] %s", string(body))
 	}

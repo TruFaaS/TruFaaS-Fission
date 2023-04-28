@@ -20,16 +20,16 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"github.com/fission/fission/trufaas"
+	"github.com/hashicorp/go-retryablehttp"
+	"github.com/pkg/errors"
+	"go.uber.org/zap"
 	"io"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-
-	"github.com/hashicorp/go-retryablehttp"
-	"github.com/pkg/errors"
-	"go.uber.org/zap"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	ferror "github.com/fission/fission/pkg/error"
@@ -43,7 +43,7 @@ type (
 		tappedByURL map[string]TapServiceRequest
 		requestChan chan TapServiceRequest
 		httpClient  *retryablehttp.Client
-		//TruFaaS modification - added trufaas client to avoid retries,error masking
+		// TruFaaS modification - added trufaas client to avoid retries,error masking
 		truFaaSHttpClient *http.Client // http client to send requests
 	}
 
@@ -81,20 +81,28 @@ func (c *Client) GetServiceForFunction(ctx context.Context, fn *fv1.Function) (s
 	}
 
 	//req, err := retryablehttp.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
-	//TruFaaS modification
+
+	// TruFaaS Modification
 	req, err := http.NewRequestWithContext(ctx, "POST", executorURL, bytes.NewReader(body))
+
+	// TruFaaS Modification [Protocol] - Protocol headers added to req sent
+	trufaas.AddTrustProtocolHeadersToReq(req)
+
 	if err != nil {
 		return "", errors.Wrap(err, "could not create request for getting service for function")
 	}
 	req.Header.Set("Content-Type", "application/json")
 
+	// TruFaaS Modification - used TruFaas http client
 	//resp, err := c.httpClient.Do(req)
-	//TruFaaS modification - used trufaasHttpClient
 	resp, err := c.truFaaSHttpClient.Do(req)
 	if err != nil {
 		return "", errors.Wrap(err, "error posting to getting service for function.")
 	}
 	defer resp.Body.Close()
+
+	// TruFaaS Modification [Protocol] - Protocol headers saved in executor service
+	trufaas.GetTrustProtocolHeadersFromResp(resp)
 
 	if resp.StatusCode != 200 {
 		return "", ferror.MakeErrorFromHTTP(resp)

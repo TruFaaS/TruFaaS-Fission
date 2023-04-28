@@ -157,8 +157,8 @@ func (w *fakeCloseReadCloser) RealClose() error {
 func (roundTripper *RetryingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	ctx := req.Context()
 
-	//TruFaaS Modification
-	trufaas.GetTrustProtocolHeadersFromInvoker(req)
+	// TruFaaS Modification [Protocol] -  - Protocol headers saved in router service
+	trufaas.GetTrustProtocolHeadersFromReq(req)
 
 	// set the timeout for transport context
 	roundTripper.addForwardedHostHeader(req)
@@ -333,8 +333,8 @@ func (roundTripper *RetryingRoundTripper) RoundTrip(req *http.Request) (*http.Re
 			dumpRespFunc(resp)
 		}
 		if err == nil {
-			// TruFaaS Modification
-			trufaas.AddTrustProtocolHeadersToFnResponse(resp)
+			// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
+			trufaas.AddTrustProtocolHeadersToResp(resp)
 			// return response back to user
 			return resp, nil
 		}
@@ -746,7 +746,7 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 		default:
 			code, errMsg := ferror.GetHTTPError(err)
 			status = code
-			//TruFaaS Modification - Modifying error message when trust fails
+			// TruFaaS Modification - Modifying error message when trust fails
 			if strings.Contains(errMsg, trufaas.TrustVerificationFailedMsg) {
 				msg = trufaas.TrustVerificationFailedMsg
 			} else {
@@ -762,8 +762,10 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 		})
 
 		// TODO: return error message that contains traceable UUID back to user. Issue #693
-		// TruFaaS Modification
-		trufaas.AddTrustProtocolHeadersToErrResponse(rw)
+
+		// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
+		trufaas.AddTrustProtocolHeadersToRespWriter(rw)
+
 		rw.WriteHeader(status)
 		_, err = rw.Write([]byte(msg))
 		if err != nil {
