@@ -157,7 +157,7 @@ func (w *fakeCloseReadCloser) RealClose() error {
 func (roundTripper *RetryingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	ctx := req.Context()
 
-	// TruFaaS Modification [Protocol] -  - Protocol headers saved in router service
+	// TruFaaS Modification [Protocol] - Protocol headers saved in router service
 	trufaas.GetTrustProtocolHeadersFromReq(req)
 
 	// set the timeout for transport context

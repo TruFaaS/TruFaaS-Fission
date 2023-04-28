@@ -12,7 +12,7 @@ The header "x-invoker-public-key" is sent from invoker to external component thr
 The headers "x-trufaas-public-key", "x-trufaas-mac", "x-trufaas-trust-verification" sent form external component back to invoker through fission
 
 The path headers take,
-	"invoker" <--> "fission router service" <--> "fission executor service" <--> "fission executor service" <--> "trufaas external component"
+	"invoker" <--> "fission router service" <--> "fission executor service" <--> "fission fetcher service" <--> "trufaas external component"
 */
 
 var protocolHeadersMap = map[string]string{
@@ -53,6 +53,7 @@ func AddTrustProtocolHeadersToResp(resp *http.Response) {
 	for headerName, headerValue := range protocolHeadersMap {
 		if headerValue != "" {
 			resp.Header.Set(headerName, headerValue)
+			protocolHeadersMap[headerName] = ""
 		}
 	}
 }
@@ -61,6 +62,7 @@ func AddTrustProtocolHeadersToRespWriter(rw http.ResponseWriter) {
 	for headerName, headerValue := range protocolHeadersMap {
 		if headerValue != "" {
 			rw.Header().Set(headerName, headerValue)
+			protocolHeadersMap[headerName] = ""
 		}
 	}
 }

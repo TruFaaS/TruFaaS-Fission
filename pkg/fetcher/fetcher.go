@@ -237,13 +237,15 @@ func (fetcher *Fetcher) SpecializeHandler(w http.ResponseWriter, r *http.Request
 	}
 	// TruFaaS Modification - passed req.Function to specializePod
 	err = fetcher.SpecializePod(ctx, req.FetchReq, req.LoadReq, req.Function)
+
+	// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
+	trufaas.AddTrustProtocolHeadersToRespWriter(w)
+
 	if err != nil {
 		logger.Error("error specializing pod", zap.Error(err))
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
-	trufaas.AddTrustProtocolHeadersToRespWriter(w)
 
 	// all done
 	w.WriteHeader(http.StatusOK)
