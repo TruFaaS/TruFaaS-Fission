@@ -1,19 +1,20 @@
-## Build fission-cli
+## Build TrustedFission
 
 
 #### Windows
-```go build -o fission.exe cmd/fission-cli/main.go```
+ 1. Run ```./trufaas/scripts/windows-build-script.bat ```
+ 2. Move the created ```fission.exe``` to ```/C:/Program Files (x86)/fission```
 
 #### Ubuntu
-``` GOOS=linux GOARCH=amd64 go build -o fission cmd/fission-cli/main.go```
+ 1. Run ```chmod +x ./trufaas/scripts/ubuntu-build-script.sh```
+ 2. Execute ```sudo ./trufaas/scripts/ubuntu-build-script.sh```
 
-```sudo mv ./fission /usr/local/bin/fission```
+## Function Test
 
+ 1. Windows --> Run ```./trufaas/scripts/fn-test.bat {fnName}```
 
-## Create fn Route
-```fission route create --name {fnName} --function {fnName} --url {fnName}```
+## Others
 
-## Start router
-
-```kubectl port-forward svc/router 31314:80 -n fission```
-```curl http://localhost:31314/{fn_route}```
+ 1. Create Fn Route ```fission route create --name {fnName} --function {fnName} --url {fnName}```
+ 2. Start router ```kubectl port-forward svc/router 31314:80 -n fission```
+ 3. Test using fn url```curl http://localhost:31314/{fn_route}```

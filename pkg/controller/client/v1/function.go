@@ -64,7 +64,7 @@ func (c *Function) Create(f *fv1.Function) (*metav1.ObjectMeta, error) {
 	if err != nil {
 		return nil, err
 	}
-	//TruFaaS Modification - send fn metadata to API at create
+	// TruFaaS Modification - send fn metadata to API at create
 	fnInfo := trufaas.GetInstanceAtCreate()
 	fnInfo.SaveFnInfoAtCreate(*f)
 	err = trufaas.SendInfoToAPIAtCreate()

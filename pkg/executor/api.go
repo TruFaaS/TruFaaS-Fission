@@ -20,15 +20,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"html"
-	"io"
-	"net/http"
-	"strings"
-
+	"github.com/fission/fission/trufaas"
 	"github.com/gorilla/mux"
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
+	"html"
+	"io"
+	"net/http"
+	"strings"
 
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
 	ferror "github.com/fission/fission/pkg/error"
@@ -45,6 +45,9 @@ func (executor *Executor) getServiceForFunctionAPI(w http.ResponseWriter, r *htt
 		http.Error(w, "Failed to read request", http.StatusInternalServerError)
 		return
 	}
+
+	// TruFaaS Modification [Protocol] - Protocol headers saved in executor service
+	trufaas.GetTrustProtocolHeadersFromReq(r)
 
 	// get function metadata
 	fn := &fv1.Function{}
@@ -113,6 +116,8 @@ func (executor *Executor) getServiceForFunctionAPI(w http.ResponseWriter, r *htt
 	}
 
 	serviceName, err := executor.getServiceForFunction(ctx, fn)
+	// TruFaaS Modification [Protocol] - Add necessary trust protocol headers
+	trufaas.AddTrustProtocolHeadersToRespWriter(w)
 	if err != nil {
 		code, msg := ferror.GetHTTPError(err)
 		logger.Error("error getting service for function",

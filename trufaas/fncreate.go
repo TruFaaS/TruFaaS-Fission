@@ -3,6 +3,7 @@ package trufaas
 import (
 	"fmt"
 	fv1 "github.com/fission/fission/pkg/apis/core/v1"
+	"github.com/pkg/errors"
 )
 
 var fnMetaData *FunctionMetaData
@@ -27,11 +28,10 @@ func (fnMetaData *FunctionMetaData) SaveFnInfoAtCreate(fn fv1.Function) {
 
 // SendInfoToAPIAtCreate sends the populated FnMetaData to TruFaaS external component
 func SendInfoToAPIAtCreate() error {
-	body, err := SendToAPI(*fnMetaData, CreateURL, "POST")
+	_, err := SendToExternalComp(*fnMetaData, CreateURL, "POST")
 	if err != nil {
-		return fmt.Errorf("[Error Response] %s", string(body))
+		return errors.New(TrustValuesCreationFailMsg)
 	}
-	fmt.Println("<<<<<<<<<<<<<<<Response from TruFaaS API>>>>>>>>>>>>>>>>>>")
-	fmt.Println(string(body))
+	fmt.Println(TrustValuesCreationSuccessMsg)
 	return nil
 }

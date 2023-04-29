@@ -81,10 +81,34 @@ func sendRequest(logger *zap.Logger, ctx context.Context, httpClient *http.Clien
 
 	maxRetries := 20
 	var resp *http.Response
+	var specializationReq *http.Request
 
 	for i := 0; i < maxRetries; i++ {
-		resp, err = ctxhttp.Post(ctx, httpClient, url, "application/json", bytes.NewReader(body))
-
+		// TruFaaS Modification [Protocol] - Protocol headers added to req sent
+		if strings.Contains(url, "/specialize") {
+			specializationReq, err = http.NewRequest("POST", url, bytes.NewReader(body))
+			if err != nil {
+				return nil, err
+			}
+			specializationReq.Header.Set("Content-Type", "application/json")
+			trufaas.AddTrustProtocolHeadersToReq(specializationReq)
+			if httpClient == nil {
+				httpClient = http.DefaultClient
+			}
+			resp, err = httpClient.Do(specializationReq.WithContext(ctx))
+			// If we got an error, and the context has been canceled, the context's error is probably more useful.
+			if err != nil {
+				select {
+				case <-ctx.Done():
+					err = ctx.Err()
+				default:
+				}
+			}
+		} else {
+			resp, err = ctxhttp.Post(ctx, httpClient, url, "application/json", bytes.NewReader(body))
+		}
+		// TruFaaS Modification [Protocol] - Protocol headers saved in fetcher service
+		trufaas.GetTrustProtocolHeadersFromResp(resp)
 		if err == nil {
 			if resp.StatusCode == 200 {
 				body, err := io.ReadAll(resp.Body)
@@ -105,7 +129,7 @@ func sendRequest(logger *zap.Logger, ctx context.Context, httpClient *http.Clien
 			return nil, err
 		}
 
-		//TruFaaS Modification - skip retrying if trust verification failed in fetcher /specialize
+		// TruFaaS Modification - skip retrying if trust verification failed in fetcher /specialize
 		if strings.Contains(err.Error(), trufaas.TrustVerificationFailedMsg) {
 			return nil, err
 		}

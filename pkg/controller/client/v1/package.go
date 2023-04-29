@@ -60,7 +60,7 @@ func (c *Package) Create(f *fv1.Package) (*metav1.ObjectMeta, error) {
 	if err != nil {
 		return nil, err
 	}
-	//TruFaas Modification - save pkg info at create
+	// TruFaas Modification - save pkg info at create
 	fnInfo := trufaas.GetInstanceAtCreate()
 	fnInfo.SavePkgInfoAtCreate(*f)
 
