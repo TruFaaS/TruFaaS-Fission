@@ -692,7 +692,7 @@ func (fetcher *Fetcher) SpecializePod(ctx context.Context, fetchReq FunctionFetc
 	if len(fns) == 1 {
 		err = trufaas.VerifyTrust(fns[0], *pkg)
 		if err != nil {
-			return errors.New(trufaas.TrustVerificationFailedMsg)
+			return errors.New(trufaas.TrustVerificationFailedMsg + "||" + err.Error())
 		}
 	}
 

@@ -748,7 +748,7 @@ func (fh functionHandler) getProxyErrorHandler(start time.Time, rrt *RetryingRou
 			status = code
 			// TruFaaS Modification - Modifying error message when trust fails
 			if strings.Contains(errMsg, trufaas.TrustVerificationFailedMsg) {
-				msg = trufaas.TrustVerificationFailedMsg
+				msg = trufaas.TrustVerificationFailedMsg + "||" + errMsg
 			} else {
 				msg = "error sending request to function"
 			}

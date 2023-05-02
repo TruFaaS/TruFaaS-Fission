@@ -1,7 +1,7 @@
 package trufaas
 
 const (
-	ExternalCompBaseURL = "https://trufaas-external.onrender.com"
+	//ExternalCompBaseURL = "https://trufaas-external.onrender.com"
 	//ExternalCompBaseURL = "https://turfaas-external-comp-avishka.onrender.com"
 
 	/*
@@ -18,8 +18,9 @@ const (
 				Get https url by running 'ngrok http 8080'
 	*/
 
-	//ExternalCompBaseURL = "{URL}"
+	ExternalCompBaseCreateURL = "http://localhost:8080"
+	ExternalCompBaseExecURL   = "http://192.168.8.150:8080"
 
-	CreateURL = ExternalCompBaseURL + "/fn/create"
-	VerifyURL = ExternalCompBaseURL + "/fn/verify"
+	CreateURL = ExternalCompBaseCreateURL + "/fn/create"
+	VerifyURL = ExternalCompBaseExecURL + "/fn/verify"
 )
