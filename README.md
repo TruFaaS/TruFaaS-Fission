@@ -15,14 +15,16 @@ Before you can build and run Fission with TruFaaS, you need to have the followin
 4. [Kubectl](https://kubernetes.io/docs/tasks/tools/) and [Helm](https://helm.sh/).
 5. [Goreleaser](https://goreleaser.com/install/) to build the Go binaries.
 6. [Skaffold](https://skaffold.dev/docs/install/) for a local development workflow to simplify the process of building and deploying Fission.
-7. TruFaaS External Component API already running on your local device on port 8080 and [LocalTunnel](https://theboroer.github.io/localtunnel-www/) installed to obtain a https URL for the API running locally.
+7. TruFaaS External Component API already running on your local device on port 8080.
+8. If you are using Windows install Git Bash and use the bash terminal for the following sections.
 
 ## Building and Deploying Fission with TruFaaS
 
 1. Before building, you need to specify the URL of the external component inside Fission.
-      - Run ```lt --port 8080``` command and keep the terminal open.
-      - Copy the https address given 
-      - Navigate to `trufaas/config.go` and replace ```{https://your-local-tunnel-address}``` in ```ExternalCompBaseURL``` constant with the obtained https address.
+      - First you need to find the ipv4 address of your local machine
+         - On Ubuntu you can use "ifconfig" command.
+         - On Windows you can use "ipconfig" command and find the ipv4 named "Wireless LAN adapter Wi-Fi" or "Ethernet adapter Ethernet," depending on your network connection.
+      - Navigate to `trufaas/config.go` and replace ```http://{your-ipv4-address}:8080``` in ```ExternalCompBaseURL``` constant with the ip address.
 
 
 2. From back in the main directory run the following commands one after the other:
@@ -42,7 +44,8 @@ Before you can build and run Fission with TruFaaS, you need to have the followin
     ```
    ### Windows
      1. Run ```go build -o fission.exe cmd/fission-cli/main.go```
-     2. Move the created `fission.exe` to `C:\Program Files (x86)\fission` directory.
+     2. Move the created `fission.exe` to `C:\Program Files (x86)\fission` directory. You may need to create the fission directory first.
+     3. Add fission as an environmental variable to system path. (```C:\Program Files (x86)\fission```)
 
 
 4. At this point, the modified version of Fission should be up and running. 
