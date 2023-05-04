@@ -43,7 +43,8 @@ Before you can build and run Fission with TruFaaS, you need to have the followin
     ```
    ### Windows
      1. Run ```go build -o fission.exe cmd/fission-cli/main.go```
-     2. Move the created `fission.exe` to `C:\Program Files (x86)\fission` directory.
+     2. Move the created `fission.exe` to `C:\Program Files (x86)\fission` directory. You may need to create the fission directory first.
+     3. Add fission as an environmental variable to system path. (```C:\Program Files (x86)\fission```)
 
 
 4. At this point, the modified version of Fission should be up and running. 
