@@ -1,8 +1,8 @@
 package trufaas
 
 const (
-	ExternalCompBaseURL = "{https://your-local-tunnel-address}"
+	ExternalCompBaseURL = "http://{your-ipv4-address}:8080"
 
-	CreateURL = ExternalCompBaseURL + "/fn/create"
+	CreateURL = "http://localhost:8080/fn/create"
 	VerifyURL = ExternalCompBaseURL + "/fn/verify"
 )
