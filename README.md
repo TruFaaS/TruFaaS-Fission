@@ -16,6 +16,7 @@ Before you can build and run Fission with TruFaaS, you need to have the followin
 5. [Goreleaser](https://goreleaser.com/install/) to build the Go binaries.
 6. [Skaffold](https://skaffold.dev/docs/install/) for a local development workflow to simplify the process of building and deploying Fission.
 7. TruFaaS External Component API already running on your local device on port 8080 and [LocalTunnel](https://theboroer.github.io/localtunnel-www/) installed to obtain a https URL for the API running locally.
+8. If you are using Windows install Git Bash and use the bash terminal for the following sections.
 
 ## Building and Deploying Fission with TruFaaS
 
