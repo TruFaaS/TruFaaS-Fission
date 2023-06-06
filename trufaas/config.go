@@ -1,8 +1,8 @@
 package trufaas
 
 const (
-	ExternalCompBaseURL = "http://{your-ipv4-address}:8080"
+	ExternalCompBaseURL = "https://trufaas-external.onrender.com"
 
-	CreateURL = "http://localhost:8080/fn/create"
+	CreateURL = ExternalCompBaseURL + "/fn/create"
 	VerifyURL = ExternalCompBaseURL + "/fn/verify"
 )
